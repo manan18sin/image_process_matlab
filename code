@@ -1,0 +1,195 @@
+function varargout = assigment(varargin)
+% ASSIGMENT MATLAB code for assigment.fig
+%      ASSIGMENT, by itself, creates a new ASSIGMENT or raises the existing
+%      singleton*.
+%
+%      H = ASSIGMENT returns the handle to a new ASSIGMENT or the handle to
+%      the existing singleton*.
+%
+%      ASSIGMENT('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in ASSIGMENT.M with the given input arguments.
+%
+%      ASSIGMENT('Property','Value',...) creates a new ASSIGMENT or raises the
+%      existing singleton*.  Starting from the left, property value pairs are
+%      applied to the GUI before assigment_OpeningFcn gets called.  An
+%      unrecognized property name or invalid value makes property application
+%      stop.  All inputs are passed to assigment_OpeningFcn via varargin.
+%
+%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
+%      instance to run (singleton)".
+%
+% See also: GUIDE, GUIDATA, GUIHANDLES
+ 
+% Edit the above text to modify the response to help assigment
+ 
+% Last Modified by GUIDE v2.5 30-Sep-2020 18:39:17
+ 
+% Begin initialization code - DO NOT EDIT
+gui_Singleton = 1;
+gui_State = struct('gui_Name',       mfilename, ...
+                   'gui_Singleton',  gui_Singleton, ...
+                   'gui_OpeningFcn', @assigment_OpeningFcn, ...
+                   'gui_OutputFcn',  @assigment_OutputFcn, ...
+                   'gui_LayoutFcn',  [] , ...
+                   'gui_Callback',   []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+ 
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+% End initialization code - DO NOT EDIT
+ 
+ 
+% --- Executes just before assigment is made visible.
+function assigment_OpeningFcn(hObject, eventdata, handles, varargin)
+% This function has no output args, see OutputFcn.
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% varargin   command line arguments to assigment (see VARARGIN)
+ 
+% Choose default command line output for assigment
+handles.output = hObject;
+ 
+% Update handles structure
+guidata(hObject, handles);
+ 
+% UIWAIT makes assigment wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+ 
+ 
+% --- Outputs from this function are returned to the command line.
+function varargout = assigment_OutputFcn(hObject, eventdata, handles) 
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+ 
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+ 
+%load image
+% --- Executes on button press in pushbutton1.
+function pushbutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global in;
+in=imread('leena.jpg');
+axes(handles.axes1);
+imshow(in);
+axes(handles.axes3);
+hold off;
+cla reset;
+ 
+ 
+%colour image conversion to gray image
+% --- Executes on button press in pushbutton2.
+function pushbutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global b;
+global in;
+b=rgb2gray(in);
+axes(handles.axes3);
+imshow(b);
+ 
+%histogram equalisation of image
+% --- Executes on button press in pushbutton3.
+function pushbutton3_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global b;
+global j;
+axes(handles.axes1);
+imshow(b);
+j=histeq(b);
+axes(handles.axes3);
+imshow(j);
+ 
+%histogram equalised graph
+% --- Executes on button press in pushbutton5.
+function pushbutton5_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global b;
+j=histeq(b);
+axes(handles.axes1);
+imshow(j);
+title('histogramequalised image');
+axes(handles.axes3);
+imhist(j);
+title('histogram graph after histogram equalization'); 
+ 
+%contrast stretching
+% --- Executes on button press in pushbutton7.
+function pushbutton7_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global b;
+s=imadjust(b,stretchlim(b,[0.05 0.95]),[]);
+axes(handles.axes1);
+imshow(b);
+axes(handles.axes3);
+imshow(s);
+ 
+% histogram of contrast stretching
+% --- Executes on button press in pushbutton8.
+function pushbutton8_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global b;
+s=imadjust(b,stretchlim(b,[0.05 0.95]),[]);
+axes(handles.axes1);
+imshow(s);
+axes(handles.axes3);
+imhist(s);
+ 
+%negetive the colour image
+% --- Executes on button press in pushbutton9.
+function pushbutton9_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global in;
+N=255-in;
+axes(handles.axes1);
+imshow(in);
+axes(handles.axes3);
+imshow(N);
+ 
+% blurs the colour image 
+% --- Executes on button press in pushbutton10.
+function pushbutton10_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global in;
+axes(handles.axes1);
+imshow(in);
+ag=fspecial('average',[10,10]);
+g=imfilter(in,ag);
+axes(handles.axes3);
+imshow(g);
+ 
+% convert to black and white 
+% --- Executes on button press in pushbutton11.
+function pushbutton11_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global in;
+bw=im2bw(in);
+axes(handles.axes1);
+imshow(in);
+axes(handles.axes3);
+imshow(bw);
